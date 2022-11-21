@@ -5,35 +5,6 @@
 #include <stdlib.h>
 #include <string.h>//para armar la entrega
 #include "hash.c"
-
-// Entradas: char* (que representa un juego) x int
-// Salidas: char*
-// Descripción: realiza strtok una cantida N de veces para obtener un dato del juego
-char * getGenerico(char string[250], int posicion){
-    char string2[250];
-    strcpy(string2,string);
-    char separacion[2] = ",";
-    char * pedacito;
-    pedacito = strtok(string2,separacion);//980830,Spirit Hunter: Death Mark,18,50.0,False,2019,False,Yes,No,No
-    for (int i = 0; i<posicion;i++){
-        pedacito = strtok(NULL,separacion);
-    }
-    return pedacito;
-}
-
-// Entradas: char*
-// Salidas: int
-// Descripción: transforma un char* a bool(int 0 o 1)
-int convertirBool(char string[10]) {
-    //True,False,Yes,No
-    if((strcmp(string,"True")==0)||(strcmp(string,"Yes")==0)||(strcmp(string,"Yes\n")==0)){
-        return 1;
-    }if((strcmp(string,"False")==0)||(strcmp(string,"No")==0)||(strcmp(string,"No\n")==0)){
-        return 0;
-    }
-    return -1;
-}
-
 // Entradas: hash, string, anio minimo
 // Salidas: void
 // Descripción: trabaja un char* del tipo juego, para agregarlo a la tabla hash en la posicion correspondiente
@@ -98,37 +69,3 @@ void trabajarLinea(year ** tabla, char linea[250], int min_year){
 //    //printf("%d %d %s\n",getpid(), year,tabla[position]->moreExpensive);
 }
 
-//Entradas year, string
-//Salida void
-//Descripcion convierte una estructura year en un string entendible
-void toString(year * anio,char string[1000]){
-    char string2[13];
-    strcpy(string,"");
-    if(anio->access!=0){
-        sprintf(string,"%d", anio->year);
-        strcat(string,"*");
-        strcat(string,anio->moreExpensive);
-        strcat(string,"*");
-        strcat(string, anio->cheaper);
-        strcat(string, "*");
-        if(strcmp(anio->free,"")==0)
-            strcat(string,"@");
-        strcat(string, anio->free);
-        strcat(string, "*");
-        gcvt(anio->win,5,string2);
-        strcat(string,string2);
-        strcat(string, "*");
-        gcvt(anio->mac,5,string2);
-        strcat(string,string2);
-        strcat(string, "*");
-        gcvt(anio->lix,5,string2);
-        strcat(string,string2);
-        strcat(string, "*");
-        sprintf(string2,"%d", anio->totalGamesYear);
-        strcat(string, string2);
-        strcat(string, "*");
-        gcvt(anio->acum,5,string2);
-        strcat(string, string2);
-    }else
-        strcat(string,"ND");
-}

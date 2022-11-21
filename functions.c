@@ -4,6 +4,18 @@
 #include <string.h>
 #include <ctype.h>
 
+// Entradas: char*
+// Salidas: int
+// Descripción: transforma un char* a bool(int 0 o 1)
+int convertirBool(char string[10]) {
+    //True,False,Yes,No
+    if((strcmp(string,"True")==0)||(strcmp(string,"Yes")==0)||(strcmp(string,"Yes\n")==0)){
+        return 1;
+    }if((strcmp(string,"False")==0)||(strcmp(string,"No")==0)||(strcmp(string,"No\n")==0)){
+        return 0;
+    }
+    return -1;
+}
 
 // Entradas: entra un char*
 // Salidas: un int 0 o 1
@@ -26,7 +38,7 @@ int digitValidate(char * string) {
 // Descripción: verifica los parametros ingresados por consola para corroborar que cumplan ciertos parametros para el
 // correcto funcionamiento del codigo.
 int validate(int argc, char * argv[], char input[], char output[], int * min_year, int * flag, int * threads,
-             float * min_price, int * chunks){
+             float * min_price, int * c){
     int opt;
     while((opt = getopt(argc,argv,":b i: o: d: p: n: c: :h"))!= -1){
         switch (opt) {
@@ -67,7 +79,7 @@ int validate(int argc, char * argv[], char input[], char output[], int * min_yea
                 break;
             case 'c':
                 if(digitValidate((optarg)))
-                    *chunks = atoi(optarg);
+                    *c = atoi(optarg);
                 else{
                     printf("Invalid argument for %c\n",optopt);
                     exit(0);
@@ -111,17 +123,17 @@ int getYear(char * string) {
     return year;
 }
 
-
-//Entradas Char* del nombre del archivo, int del year minimo, int precio minimo, pipes, int de cant de workers
-//Salidas TdaLista ** que trabaja como una tabla hash
-//Descripcion se lee el archivo solicitado por el usuario, el contenido de este csv se almacena en una tabla hash segun
-//            el year del juego en cuestion
-int leerCSV(FILE * fp,int chunks,char ** lineasLeidas){
-    char string[150];
-    int lineas = 0;
-    while(fgets(string,150,fp)!=NULL && lineas < chunks){
-        strcpy(lineasLeidas[lineas],string);
-        lineas++;
+// Entradas: char* (que representa un juego) x int
+// Salidas: char*
+// Descripción: realiza strtok una cantida N de veces para obtener un dato del juego
+char * getGenerico(char string[250], int posicion){
+    char string2[250];
+    strcpy(string2,string);
+    char separacion[2] = ",";
+    char * pedacito;
+    pedacito = strtok(string2,separacion);//980830,Spirit Hunter: Death Mark,18,50.0,False,2019,False,Yes,No,No
+    for (int i = 0; i<posicion;i++){
+        pedacito = strtok(NULL,separacion);
     }
-    return lineas;
+    return pedacito;
 }

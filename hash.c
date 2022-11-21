@@ -1,4 +1,4 @@
-#include "year.h"
+#include "year.c"
 #include <time.h>
 
 //Entradas: void
@@ -38,6 +38,7 @@ year ** crearHash(int min_year){
         M[i]->acum = 0;
         strcpy(M[i]->free,"");
         pthread_mutex_init(&M[i]->mutex,NULL);
+        pthread_mutex_init(&M[i]->mutexSetAll,NULL);
     }
     return M;
 }
@@ -47,15 +48,3 @@ int getSize(int min_year){
     int size = anio-min_year+5;
     return size;
 }
-
-//Entradas: string,tabla hash, int, int
-//Salidas: void
-//Descripcion: inserta un dato en la tabla hash.
-/*
-void agregarDatoHash(char * datos, TDAlista ** hash,int min_year,int min_price){
-    int year = getYear(datos);
-    int price = getPrice(datos);
-    if(year>=min_year && price >=min_price) {
-
-    }
-}*/
