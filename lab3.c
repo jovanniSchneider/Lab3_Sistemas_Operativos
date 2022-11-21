@@ -15,6 +15,7 @@ year ** tablaHash;
 int min_year;
 float min_price;
 
+
 void * procesar(void * arg){
     int * xunk = (int *) arg;
     printf(" ");
@@ -76,6 +77,18 @@ int main(int argc, char * argv[]) {
         for (int i = 0; i < threads; ++i) {
             pthread_join(hebras[i],NULL);
         }
+        //aqui la tabla deberia estar lista
+        //se revisa si la flag de printear por pantalla esta activa
+        if(flag){
+            //se printea el archivo
+            char string[1000];
+            for (int i = 0; i < getSize(min_year); ++i) {
+                yearToString(tablaHash[i],string);
+                printf("%s\n", string);
+            }
+            return 0;
+        }
+            //no se printea
         //Se cierra el archivo de entrada al finalizar de procesar
         return 0;
     }
