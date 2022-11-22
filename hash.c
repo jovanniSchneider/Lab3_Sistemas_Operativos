@@ -43,6 +43,8 @@ year ** crearHash(int min_year){
     return M;
 }
 
+//Entradas
+
 int getSize(int min_year){
     int anio = getActualYear();
     int size = anio-min_year+5;

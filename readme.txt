@@ -5,6 +5,6 @@ Secciones: A-1 (Fernando Rannou) / B-2 (Cristobal Acosta)
 
 Comandos Makefile:
 
--make all: Compila los diversos targets utilizados, dejando el ejecutable como lab2
--make clean: Elimina el ejecutable lab2.
--make fullclean: Elima el ejecutable lab2 y los demas ejecutables generados.
+-make all: Compila los diversos targets utilizados, dejando el ejecutable como lab3
+-make clean: Elimina el ejecutable lab3.
+-make fullclean: Elima el ejecutable lab3 y los demas archivos generados.

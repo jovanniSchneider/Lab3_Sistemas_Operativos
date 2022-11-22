@@ -20,6 +20,16 @@ typedef struct year{
     pthread_mutex_t mutexSetAll;
 }year;
 
+//Entrada  TDA Year
+//Salida  void
+//Descripcion  aumenta en uno la variable totalgamesyear
+void countGame(year * anio){
+    pthread_mutex_lock(&anio->mutex);
+    anio->totalGamesYear++;
+    pthread_mutex_unlock(&anio->mutex);
+}
+
+
 void setAccess(year * anio){
     pthread_mutex_lock(&anio->mutex);
     anio->access = 1;
@@ -55,7 +65,6 @@ void addFree(year * anio, char * name){
 }
 void setOthers(year * anio, float win, float mac, float lix, float precio ){
     pthread_mutex_lock(&anio->mutex);
-    anio->totalGamesYear++;
     anio->win+= win;
     anio->mac+= mac;
     anio->lix+= lix;
@@ -76,34 +85,43 @@ void setAll(year * anio, game * juego){
 //Entradas year, string
 //Salida void
 //Descripcion convierte una estructura year en un string entendible
-void yearToString(year * anio,char string[1000]){
-    char string2[13];
+void toString(year* anio,char string[1500]){
+    char string2[40];
     strcpy(string,"");
-    if(anio->access!=0){
-        sprintf(string,"%d", anio->year);
-        strcat(string,"*");
-        strcat(string,anio->moreExpensive);
-        strcat(string,"*");
-        strcat(string, anio->cheaper);
-        strcat(string, "*");
-        if(strcmp(anio->free,"")==0)
-            strcat(string,"@");
-        strcat(string, anio->free);
-        strcat(string, "*");
-        gcvt(anio->win,5,string2);
-        strcat(string,string2);
-        strcat(string, "*");
-        gcvt(anio->mac,5,string2);
-        strcat(string,string2);
-        strcat(string, "*");
-        gcvt(anio->lix,5,string2);
-        strcat(string,string2);
-        strcat(string, "*");
-        sprintf(string2,"%d", anio->totalGamesYear);
-        strcat(string, string2);
-        strcat(string, "*");
-        gcvt(anio->acum,5,string2);
-        strcat(string, string2);
-    }else
-        strcat(string,"ND");
+    sprintf(string,"Año %d", anio->year);
+    sprintf(string2,"\nCantidad total de juegos: %d",anio->totalGamesYear);
+    strcat(string,string2);
+    strcat(string,":\nJuego mas caro: ");
+    strcat(string,anio->moreExpensive);
+    strcat(string," ");
+    gcvt(anio->priceEx,5,string2);
+    strcat(string,string2);
+    strcat(string,"\nJuego mas barato: ");
+    strcat(string, anio->cheaper);
+    strcat(string," ");
+    gcvt(anio->priceCh,5,string2);
+    strcat(string,string2);
+    strcat(string, "\nPromedio de precios: ");
+    anio->acum= anio->acum/anio->totalGamesYear;
+    gcvt(anio->acum,7,string2);
+    strcat(string,string2);
+    strcat(string,"\nWindows: ");
+    anio->win= (anio->win/anio->totalGamesYear)*100;
+    gcvt(anio->win,7,string2);
+    strcat(string,string2);
+    strcat(string,"% Mac: ");
+    anio->mac= (anio->mac/anio->totalGamesYear)*100;
+    gcvt(anio->mac,7,string2);
+    strcat(string,string2);
+    strcat(string,"% Linux: ");
+    anio->lix= (anio->lix/anio->totalGamesYear)*100;
+    gcvt(anio->lix,7,string2);
+    strcat(string,string2);
+    if(strcmp(anio->free,"")==0){
+        strcat(string,"%\nNo se encontraron juegos gratis\n");
+    }else{
+        strcat(string,"%\nJuegos gratis:\n");
+        strcat(string,anio->free);
+        strcat(string,"\n");
+    }
 }
