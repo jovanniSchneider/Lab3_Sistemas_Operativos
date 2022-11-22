@@ -80,9 +80,9 @@ game stringToGame(char string[500]){
 //Descripcion se lee el archivo solicitado por el usuario, el contenido de este csv se almacena en una tabla hash segun
 //            el year del juego en cuestion
 int leerCSV(FILE * fp,int chunks,game lineasLeidas[]){
-    char string[500];
+    char string[600];
     int lineas = 0;
-    while(fgets(string,500,fp)!=NULL && lineas < chunks){
+    while((fgets(string,600,fp)!=NULL) && (lineas < chunks)){
         lineasLeidas[lineas] = stringToGame(string);
         lineas++;
     }

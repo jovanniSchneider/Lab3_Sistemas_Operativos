@@ -30,24 +30,39 @@ void countGame(year * anio){
 }
 
 
+//Entrada  TDA Year
+//Salida  void
+//Descripcion  activa la flag access
 void setAccess(year * anio){
     pthread_mutex_lock(&anio->mutex);
     anio->access = 1;
     pthread_mutex_unlock(&anio->mutex);
 }
 
+
+//Entrada  TDA Year x int
+//Salida  void
+//Descripcion  cambia el valor de la variable year
 void setYear(year * anio, int yearEntry){
     pthread_mutex_lock(&anio->mutex);
     anio->year = yearEntry;
     pthread_mutex_unlock(&anio->mutex);
 }
 
+
+//Entrada  TDA Year x string x float
+//Salida  void
+//Descripcion  setea la informacion respecto al juego mas caro
 void setMoreExpensive(year * anio,char * name, float price){
     pthread_mutex_lock(&anio->mutex);
     strcpy(anio->moreExpensive,name);
     anio->priceEx = price;
     pthread_mutex_unlock(&anio->mutex);
 }
+
+//Entrada  TDA Year x string x float
+//Salida  void
+//Descripcion  setea la informacion respecto al juego mas barato
 void setCheaper(year * anio,char * name, float price){
     pthread_mutex_lock(&anio->mutex);
     strcpy(anio->cheaper,name);
@@ -55,6 +70,9 @@ void setCheaper(year * anio,char * name, float price){
     pthread_mutex_unlock(&anio->mutex);
 }
 
+//Entrada  TDA Year x string
+//Salida  void
+//Descripcion  concatena el string de entrada en la variable que representan los juegos gratis
 void addFree(year * anio, char * name){
     pthread_mutex_lock(&anio->mutex);
     if(strcmp(anio->free,"")!=0){
@@ -63,6 +81,10 @@ void addFree(year * anio, char * name){
     strcat(anio->free, name);
     pthread_mutex_unlock(&anio->mutex);
 }
+
+//Entrada  TDA Year x float x float x float x float
+//Salida  void
+//Descripcion  aumenta en 1 o 0 los juegos segun SO y aumenta el precio acumulado
 void setOthers(year * anio, float win, float mac, float lix, float precio ){
     pthread_mutex_lock(&anio->mutex);
     anio->win+= win;
@@ -72,6 +94,9 @@ void setOthers(year * anio, float win, float mac, float lix, float precio ){
     pthread_mutex_unlock(&anio->mutex);
 }
 
+//Entrada  TDA Year x TDA game
+//Salida  void
+//Descripcion  setea todos los datos en el anio con el juego de entrada
 void setAll(year * anio, game * juego){
     pthread_mutex_lock(&anio->mutexSetAll);
     setAccess(anio);

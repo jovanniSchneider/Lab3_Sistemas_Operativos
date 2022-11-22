@@ -1,14 +1,16 @@
 CC=gcc
 cflags= -Wall -lm
-out=lab2
-outbroker=broker
-outworker=worker
+out=lab3
+outgame=game.h.gch
+outyear=year.h.gch
+outfun=functions.h.gch
 
 all:
-	$(CC) broker.c -o $(outbroker)
-	$(CC) worker.c -o $(outworker)
-	$(CC) lab2.c -o $(out) $(cflags)
+	$(CC) game.h -s
+	$(CC) year.h -s
+	$(CC) functions.h -s
+	$(CC) lab3.c -o $(out) $(cflags)
 clean:
 	rm $(out)
 fullclean:
-	rm -f $(out) $(outbroker) $(outworker)
+	rm -f $(out) $(outgame) $(outyear) $(outfun)
